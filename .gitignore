@@ -1,0 +1,13 @@
+# Compiled Object files
+Listings
+RTE
+DebugConfig
+Objects
+rtos.uvguix.*
+*.lst
+
+# Executables
+*.bin
+*.HEX
+*.TMP
+*.scvd
