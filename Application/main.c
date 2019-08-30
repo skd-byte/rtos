@@ -38,6 +38,11 @@ void orangeOn(void);
 int red_main(void);
 int green_main(void);
 
+int __svc(0x00) svc_service_add(int x, int y);
+int __svc(0x01) svc_service_sub(int x, int y);
+int __svc(0x02) svc_service_mul(int x, int y);
+int __svc(0x03) svc_service_div(int x, int y);
+
 volatile uint32_t tick;
 volatile uint32_t _tick;
 
@@ -46,6 +51,8 @@ uint32_t red_stack[40];
 
 uint32_t *sp_green = &green_stack[40];
 uint32_t *sp_red   = &red_stack[40];
+
+int32_t a,b,c;
 
 int main()
 {
@@ -81,6 +88,22 @@ int main()
 
   //If we don't put this wire one here this main function is going to run and it's going to terminate.
   {
+    a = 12;
+    b = 6;
+    c = svc_service_add(a, b);
+
+    a = 20;
+    b = 25;
+    c = svc_service_sub(a, b);
+
+    a = 12;
+    b = 6;
+    c = svc_service_mul(a, b);
+
+    a = 12;
+    b = 6;
+    c = svc_service_div(a, b);
+
   }
 }
 
@@ -136,7 +159,7 @@ void orangeOff(void)
 
 
 void redOn(void)
-{ 
+{
   GPIOA->ODR |= RED;
 }
 
