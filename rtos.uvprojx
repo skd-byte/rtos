@@ -223,7 +223,7 @@
             <hadIRAM>1</hadIRAM>
             <hadXRAM>0</hadXRAM>
             <uocXRam>0</uocXRam>
-            <RvdsVP>1</RvdsVP>
+            <RvdsVP>2</RvdsVP>
             <hadIRAM2>0</hadIRAM2>
             <hadIROM2>0</hadIROM2>
             <StupSel>8</StupSel>
@@ -373,7 +373,7 @@
               <MiscControls></MiscControls>
               <Define>STM32F401xE</Define>
               <Undefine></Undefine>
-              <IncludePath></IncludePath>
+              <IncludePath>.\rtKernel</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -421,11 +421,6 @@
               <FileType>1</FileType>
               <FilePath>.\Application\main.c</FilePath>
             </File>
-            <File>
-              <FileName>svc.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\svc.c</FilePath>
-            </File>
           </Files>
         </Group>
         <Group>
@@ -440,6 +435,26 @@
               <FileName>system_stm32f4xx.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\Driver\system_stm32f4xx.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>rtKernel</GroupName>
+          <Files>
+            <File>
+              <FileName>rtKernel.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\rtKernel\rtKernel.c</FilePath>
+            </File>
+            <File>
+              <FileName>rtKernel.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\rtKernel\rtKernel.h</FilePath>
+            </File>
+            <File>
+              <FileName>rtKernel.s</FileName>
+              <FileType>2</FileType>
+              <FilePath>.\rtKernel\rtKernel.s</FilePath>
             </File>
           </Files>
         </Group>
