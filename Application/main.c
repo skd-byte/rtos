@@ -40,6 +40,7 @@ void Task1(void)
   while(1)
   {
     count1++;
+    rtThreadYield();
   }
 
 }
@@ -50,6 +51,7 @@ void Task2(void)
   while(1)
   {
     count2++;
+    rtThreadYield();
   }
 
 }

@@ -42,6 +42,7 @@ uint8_t rtKernelAddThread(void(* task_0)(void),
                           void(* task_2)(void));
 void rtKernelLaunch(uint32_t quanta);
 void rtKernelInit(void);
+void rtThreadYield(void);
 
 #endif // RT_KERNEL_H_
 

@@ -15,7 +15,8 @@
 #define BUS_FREQ         16000000
 #define NUM_OF_THREADS   3
 #define STACK_SIZE       100
-#define SYSPRI3         (*((volatile uint32_t *)0xE000ED20))
+#define SYSPRI3                 (*((volatile uint32_t *)0xE000ED20))
+#define INTCTRL_SYSTICK         (*((volatile uint32_t *)0xE000ED04))
 
 /******************************************************************************
 * Module Preprocessor Macros
@@ -132,5 +133,19 @@ void rtKernelLaunch(uint32_t quanta)
                    SysTick_CTRL_TICKINT_Msk   |
                    SysTick_CTRL_ENABLE_Msk;
   rtSchedulerLaunch();
+}
+/*************** END OF FUNCTIONS ***************************************************************************/
+
+/******************************************************************************
+* Function : rtThreadYield()
+*//**
+* @brief  generate software systic interrupt
+* @param  none
+* @retval none
+* @note
+*******************************************************************************/
+void rtThreadYield()
+{
+  INTCTRL_SYSTICK |= 0x04000000; // triger systick
 }
 /*************** END OF FUNCTIONS ***************************************************************************/
