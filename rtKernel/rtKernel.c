@@ -18,6 +18,9 @@
 #define SYSPRI3                 (*((volatile uint32_t *)0xE000ED20))
 #define INTCTRL_SYSTICK         (*((volatile uint32_t *)0xE000ED04))
 
+#define TASK_3_PERIOD    500
+
+
 /******************************************************************************
 * Module Preprocessor Macros
 *******************************************************************************/
@@ -39,13 +42,15 @@ uint32_t MILIS_PRESCALER;
 tcbType *tcb_currentPtr;
 tcbType tcbs[NUM_OF_THREADS];
 uint32_t TCB_STACK[NUM_OF_THREADS][STACK_SIZE];
+volatile uint32_t period_tick;
 
 /******************************************************************************
 * Function Prototypes
 *******************************************************************************/
 void rtSchedulerLaunch(void);
 void rtKernelStackInit(int32_t task_index);
-
+void GPIO_Init(void);
+void Toggle_LED(void);
 /******************************************************************************
 * Function Definitions
 *******************************************************************************/
@@ -149,3 +154,26 @@ void rtThreadYield()
   INTCTRL_SYSTICK |= 0x04000000; // triger systick
 }
 /*************** END OF FUNCTIONS ***************************************************************************/
+
+
+
+/******************************************************************************
+* Function : rtSchedulerRoundRobin(void)
+*//**
+* @brief  this function schedule periodic task and context switching
+* @param  none
+* @retval none
+* @note
+*******************************************************************************/
+void rtSchedulerRoundRobin(void)
+{
+  period_tick++;
+  if((++period_tick) == TASK_3_PERIOD)
+  {
+    (*Task3)();
+    period_tick=0;
+  }
+  tcb_currentPtr =  tcb_currentPtr->nextPtr;
+}
+/*************** END OF FUNCTIONS ***************************************************************************/
+

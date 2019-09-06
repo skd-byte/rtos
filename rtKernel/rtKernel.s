@@ -5,19 +5,25 @@
 
     AREA |.text|, CODE, READONLY, ALIGN=2
         THUMB
+    PRESERVE8
     EXTERN  tcb_currentPtr
     EXPORT  SysTick_Handler
     EXPORT  rtSchedulerLaunch
+    IMPORT  rtSchedulerRoundRobin
 
 SysTick_Handler             ;save r0,r1,r2,r3,r12,lr,pc,psr
     CPSID   I
     PUSH    {R4-R11}             ;save r4,r5,r6,r7,r8,r9,r10,r11
     LDR     R0, =tcb_currentPtr  ; r0 points to tcb_currentPtr
-    LDR     R1, [R0]        ; r1= tcb_currentPtr
-    STR     SP, [R1]        ; update stack pointer of current tcb block
-    LDR     R1, [R1,#4]     ; r1 = tcb_currentPtr->next
-    STR     R1, [R0]        ; update next thread tcb_currentPtr = r1
-    LDR     SP, [R1]        ; Load next thread SP = tcb_currentPtr->stackPt
+    LDR     R1, [R0]         ; r1= tcb_currentPtr
+    STR     SP, [R1]         ; update stack pointer of current tcb block// (tcb_currentPtr->stackPt = SP)
+    ;LDR     R1, [R1,#4]     ; r1 = tcb_currentPtr->next
+    ;STR     R1, [R0]        ; update next thread tcb_currentPtr = r1
+    PUSH    {R0,LR}
+    BL      rtSchedulerRoundRobin
+    POP      {R0,LR}
+    LDR      R1,[R0]            ;R1= tcb_currentPtr i.e. New thread
+    LDR     SP, [R1]         ; Load next thread SP = tcb_currentPtr->stackPt
     POP     {R4-R11}
     CPSIE   I
     BX      LR

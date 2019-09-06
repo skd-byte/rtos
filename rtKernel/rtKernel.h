@@ -43,7 +43,8 @@ uint8_t rtKernelAddThread(void(* task_0)(void),
 void rtKernelLaunch(uint32_t quanta);
 void rtKernelInit(void);
 void rtThreadYield(void);
-
+void Task3(void);  // periodic scheduled task 100ms
+void Task4(void);  // periodic schedule task 250ms
 #endif // RT_KERNEL_H_
 
 /*** End of File *************************************************************/
