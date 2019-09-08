@@ -2,3 +2,4 @@
 1. Round Robin Scheduler
 2. Cooperative Scheduler
 3. Periodic Scheduler
+4. Implemented Semaphore

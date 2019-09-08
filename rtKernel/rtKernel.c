@@ -215,12 +215,13 @@ void rtSignalSet(int32_t * semaphore)
 * @retval none
 * @note
 *******************************************************************************/
-void rtSignalWait(int32_t * semaphore)
+void rtSignalWait(int32_t * semaphore)  // make cooperative semaphore by adding rtThreadYield()
 {
   __disable_irq();
-  while(*semaphore<=0)  // task will spin here till semaphore gets incremented
+  while(*semaphore<=0)  
   {
-    __disable_irq();  
+    __disable_irq();
+    rtThreadYield();  // task wiill not waste time here it will yield and give time another task   
     __enable_irq();
   }
   *semaphore -=1;
