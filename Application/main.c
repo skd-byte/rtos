@@ -37,25 +37,18 @@ void Task0(void)
   while(1)
   {
     count0++;
-
-    rtSignalWait(&semaphore2);
-    UART_Message("Trying to take UART Resource Task0\n\r");
-    rtSignalSet(&semaphore1);
   }
 
 }
 
-//task 1
+//task 1, using two semaphore trying to run both task 1 aand task2 at the same time
 void Task1(void)
 {
   while(1)
   {
+    rtSignalSet(&semaphore1);
+    rtSignalWait(&semaphore2);
     count1++;
-
-    rtSignalWait(&semaphore1);
-    UART_Message("Trying to take UART Resource Task1\n\r");
-    rtSignalSet(&semaphore2);
-    rtThreadYield();
   }
 
 }
@@ -65,8 +58,9 @@ void Task2(void)
 {
   while(1)
   {
+    rtSignalSet(&semaphore2);
+    rtSignalWait(&semaphore1);
     count2++;
-    rtThreadYield();
   }
 
 }
