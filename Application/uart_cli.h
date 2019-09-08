@@ -1,11 +1,10 @@
 /****************************************************************************
-* Title                 :   real time Kernel Interface
-* Filename              :   rtKernel.h
-* Origin Date           :   24/12/2018
+* Title                 :   uart command line interface
+* Filename              :   uart_term.h
+* Author                :   SKD
 *****************************************************************************/
-
-#ifndef RT_KERNEL_H_
-#define RT_KERNEL_H_
+#ifndef UART_CLI_H_
+#define UART_CLI_H_
 
 /******************************************************************************
 * Includes
@@ -15,12 +14,14 @@
 /******************************************************************************
 * Preprocessor Constants
 *******************************************************************************/
-
+/**
+ * This constant is an example
+ */
 
 /******************************************************************************
 * Configuration Constants
 *******************************************************************************/
-
+#define UART_PRINT CLI_Write
 
 /******************************************************************************
 * Macros
@@ -34,21 +35,16 @@
 * Variables
 *******************************************************************************/
 
+
 /******************************************************************************
 * Function Prototypes
 *******************************************************************************/
-uint8_t rtKernelAddThread(void(* task_0)(void),
-                          void(* task_1)(void),
-                          void(* task_2)(void));
-void rtKernelLaunch(uint32_t quanta);
-void rtKernelInit(void);
-void rtThreadYield(void);
-void Task3(void);  // periodic scheduled task 100ms
-void Task4(void);  // periodic schedule task 250ms
-void rtSemaphoreInit(int32_t * semaphore, int32_t val);
-void rtSignalSet(int32_t * semaphore);
-void rtSignalWait(int32_t * semaphore);
+void UART_GPIOInit(void);
+void UART_Message(const char *str);
 
-#endif // RT_KERNEL_H_
+void CLI_Write(unsigned char *pcFormat, ...);
+void UART_CLIWrite(uint8_t *u8_Buff, uint32_t u32_size);
+void UART_CLIInit(void);
+#endif /*UART_CLI_H_*/
 
-/*** End of File *************************************************************/
+/*** End of File **************************************************************/

@@ -373,7 +373,7 @@
               <MiscControls></MiscControls>
               <Define>STM32F401xE</Define>
               <Undefine></Undefine>
-              <IncludePath>.\rtKernel</IncludePath>
+              <IncludePath>.\rtKernel;.\Application</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -420,6 +420,16 @@
               <FileName>main.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\Application\main.c</FilePath>
+            </File>
+            <File>
+              <FileName>uart_cli.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Application\uart_cli.c</FilePath>
+            </File>
+            <File>
+              <FileName>uart_cli.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\Application\uart_cli.h</FilePath>
             </File>
           </Files>
         </Group>

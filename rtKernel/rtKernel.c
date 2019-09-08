@@ -151,6 +151,7 @@ void rtKernelLaunch(uint32_t quanta)
 *******************************************************************************/
 void rtThreadYield()
 {
+  SysTick->VAL = 0;
   INTCTRL_SYSTICK |= 0x04000000; // triger systick
 }
 /*************** END OF FUNCTIONS ***************************************************************************/
@@ -176,4 +177,53 @@ void rtSchedulerRoundRobin(void)
   tcb_currentPtr =  tcb_currentPtr->nextPtr;
 }
 /*************** END OF FUNCTIONS ***************************************************************************/
+/******************************************************************************
+* Function : rtSemaphoreInit()
+*//**
+* @brief
+* @param  int32_t * semaphore, int32_t val
+* @retval none
+* @note
+*******************************************************************************/
+void rtSemaphoreInit(int32_t * semaphore, int32_t val)
+{
+  *semaphore = val;
+}
+/*************** END OF FUNCTIONS ***************************************************************************/
 
+/******************************************************************************
+* Function : rtSignalSet(int32_t * semaphore)
+*//**
+* @brief
+* @param  int32_t * semaphore
+* @retval none
+* @note
+*******************************************************************************/
+void rtSignalSet(int32_t * semaphore)
+{
+  __disable_irq();
+  *semaphore +=1;
+  __enable_irq();
+}
+/*************** END OF FUNCTIONS ***************************************************************************/
+
+/******************************************************************************
+* Function : rtSignalWait
+*//**
+* @brief
+* @param  int32_t * semaphore
+* @retval none
+* @note
+*******************************************************************************/
+void rtSignalWait(int32_t * semaphore)
+{
+  __disable_irq();
+  while(*semaphore<=0)  // task will spin here till semaphore gets incremented
+  {
+    __disable_irq();  
+    __enable_irq();
+  }
+  *semaphore -=1;
+  __enable_irq();
+}
+/*************** END OF FUNCTIONS ***************************************************************************/

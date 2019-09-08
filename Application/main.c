@@ -8,7 +8,7 @@
 *******************************************************************************/
 #include "stm32f4xx.h"
 #include "rtKernel.h"
-
+#include "uart_cli.h"
 /******************************************************************************
 * Module Preprocessor Constants
 *******************************************************************************/
@@ -21,6 +21,7 @@
 *******************************************************************************/
 uint32_t count0,count1,count2;
 
+int32_t semaphore1, semaphore2;
 /******************************************************************************
 * Function Prototypes
 *******************************************************************************/
@@ -30,22 +31,30 @@ void GPIO_Init(void);
 * Function Definitions
 *******************************************************************************/
 
-//task 0 just increment counter
+//task 0
 void Task0(void)
 {
   while(1)
   {
     count0++;
+
+    rtSignalWait(&semaphore2);
+    UART_Message("Trying to take UART Resource Task0\n\r");
+    rtSignalSet(&semaphore1);
   }
 
 }
 
-//task 1 just increment counter
+//task 1
 void Task1(void)
 {
   while(1)
   {
     count1++;
+
+    rtSignalWait(&semaphore1);
+    UART_Message("Trying to take UART Resource Task1\n\r");
+    rtSignalSet(&semaphore2);
     rtThreadYield();
   }
 
@@ -86,6 +95,10 @@ void Task4(void)
 int main(void)
 {
   GPIO_Init();
+  UART_CLIInit();
+
+  rtSemaphoreInit((int32_t *)&semaphore1,1);
+  rtSemaphoreInit((int32_t *)&semaphore2,0);
   rtKernelInit();
   rtKernelAddThread(&Task0,&Task1,&Task2);
   rtKernelLaunch(QUANTA);
